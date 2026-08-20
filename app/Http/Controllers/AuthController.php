@@ -48,6 +48,41 @@ class AuthController extends Controller
         }
     }
 
+    public function showRegisterForm()
+    {
+        return view('auth.register');
+    }
+
+    public function register(Request $request)
+    {
+        try {
+            $validated = $request->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'string', 'min:6', 'confirmed'],
+            ]);
+
+            $user = \App\Models\User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+            ]);
+
+            Auth::login($user);
+
+            $request->session()->regenerate();
+
+            return redirect()->route('posts.index')->with('success', 'Registration successful!');
+        } catch (\Throwable $e) {
+            return response()->json([
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine(),
+                'trace' => $e->getTraceAsString()
+            ], 500);
+        }
+    }
+
     public function logout(Request $request)
     {
         Auth::logout();
