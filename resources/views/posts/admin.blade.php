@@ -29,11 +29,11 @@
                         <td><a href="{{ route('posts.show', $post->id) }}">{{ $post->title }}</a></td>
                         <td>{{ $post->created_at->format('Y-m-d') }}</td>
                         <td>
-                            <a href="{{ route('posts.edit', $post->id) }}">Edit</a> | 
+                            <a href="{{ route('posts.edit', $post->id) }}" class="btn" style="font-size:0.85em; padding:5px 10px;">Edit</a>
                             <form action="{{ route('posts.destroy', $post->id) }}" method="POST" style="display:inline;" onsubmit="return confirm('Delete this post?');">
                                 @csrf
                                 @method('DELETE')
-                                <button type="submit" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer; padding:0;">Delete</button>
+                                <button type="submit" class="btn btn-danger" style="font-size:0.85em; padding:5px 10px;">Delete</button>
                             </form>
                         </td>
                     </tr>
