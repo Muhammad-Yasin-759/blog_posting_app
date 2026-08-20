@@ -6,6 +6,11 @@
     @if ($posts->count() > 0)
         @foreach ($posts as $post)
             <div>
+                @if ($post->image_url)
+                    <a href="{{ route('posts.show', $post->id) }}">
+                        <img src="{{ Storage::url($post->image_url) }}" alt="{{ $post->title }}" style="width:100%; max-height:220px; object-fit:cover; border-radius:6px; margin-bottom:12px;">
+                    </a>
+                @endif
                 <h3><a href="{{ route('posts.show', $post->id) }}" style="color: #224248; text-decoration:none;">{{ $post->title }}</a></h3>
                 <p class="post-meta">Published on {{ $post->created_at->format('Y-m-d') }}</p>
                 <p>{{ Str::limit($post->content, 150) }}</p>

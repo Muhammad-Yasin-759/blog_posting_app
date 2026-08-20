@@ -36,9 +36,13 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'image' => 'nullable|image|max:4096',
         ]);
 
-        $this->postService->createPost($validated);
+        $this->postService->createPost(
+            ['title' => $validated['title'], 'content' => $validated['content']],
+            $request->file('image')
+        );
 
         return redirect()->route('admin.posts.index')->with('success', 'Post created successfully.');
     }
@@ -60,9 +64,14 @@ class PostController extends Controller
         $validated = $request->validate([
             'title' => 'required|max:255',
             'content' => 'required',
+            'image' => 'nullable|image|max:4096',
         ]);
 
-        $this->postService->updatePost($id, $validated);
+        $this->postService->updatePost(
+            $id,
+            ['title' => $validated['title'], 'content' => $validated['content']],
+            $request->file('image')
+        );
 
         return redirect()->route('admin.posts.index')->with('success', 'Post updated successfully.');
     }

@@ -5,8 +5,12 @@
 
     <h1>{{ $post->title }}</h1>
     <p class="post-meta">Published on {{ $post->created_at->format('Y-m-d H:i') }}</p>
-    
-    <div style="margin-top: 20px;">
+
+    @if ($post->image_url)
+        <img src="{{ Storage::url($post->image_url) }}" alt="{{ $post->title }}" style="width: 100%; max-height: 400px; object-fit: cover; border-radius: 6px; margin-bottom: 20px;">
+    @endif
+
+    <div>
         {!! nl2br(e($post->content)) !!}
     </div>
 @endsection
