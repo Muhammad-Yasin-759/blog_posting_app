@@ -4,17 +4,17 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use \Illuminate\Support\Facades\Hash;
 class AuthController extends Controller
 {
     public function showLoginForm()
     {
-        // Auto-create default admin if no users exist
+        
         if (\App\Models\User::count() === 0) {
             \App\Models\User::create([
                 'name' => 'Admin User',
                 'email' => 'admin@admin.com',
-                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+                'password' => Hash::make('password'),
             ]);
         }
 
@@ -65,7 +65,7 @@ class AuthController extends Controller
             $user = \App\Models\User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'password' => \Illuminate\Support\Facades\Hash::make($validated['password']),
+                'password' => Hash::make($validated['password']),
             ]);
 
             Auth::login($user);
