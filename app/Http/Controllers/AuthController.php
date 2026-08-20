@@ -9,6 +9,15 @@ class AuthController extends Controller
 {
     public function showLoginForm()
     {
+        // Auto-create default admin if no users exist
+        if (\App\Models\User::count() === 0) {
+            \App\Models\User::create([
+                'name' => 'Admin User',
+                'email' => 'admin@admin.com',
+                'password' => \Illuminate\Support\Facades\Hash::make('password'),
+            ]);
+        }
+
         return view('auth.login');
     }
 
